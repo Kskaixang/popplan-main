@@ -1,0 +1,58 @@
+安裝兩個react-bootstrap插件
+npm run dev
+npm install react-router-dom react-bootstrap bootstrap-icons prop-types rsuite rsuite@latest @stomp/stompjs sockjs-client react-toastify sweetalert2 
+
+
+拖曳DRAG
+拉伸視窗
+
+npm install react-router-dom  跳頁插件
+npm install react-bootstrap    bootstrap插件
+npm install bootstrap-icons    bootstrap插件icon
+npm install prop-types 傳入參數驗證 filterEventList用到 參考 EventList.jsx
+npm install rsuite 時間創建選單 //日曆插件
+npm install rsuite@latest  時間語系
+npm install @stomp/stompjs sockjs-client  //即時通訊 通道插件
+npm install react-toastify  //通知框
+npm install sweetalert2 //彈出框
+
+
+---import { DatePicker } from 'rsuite'; //時間選擇器
+---import 'rsuite/dist/rsuite.min.css'; // 時間選擇器樣式
+
+
+npm install @radix-ui/react-dialog   同學推薦的UI 但還不會用
+npm install @radix-ui/react-dropdown-menu
+
+
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Button } from '你自己的按鈕元件或bootstrap';  // 你自己定義或用 bootstrap 的按鈕
+
+npm install react-select  下拉框搜索插件
+npm run dev
+
+npm install swiper
+
+統一在main.jsx引入
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
+基本常識
+return 是()
+set是 (e.target.value)
+onclick 
+傳本體{} 也是可以的 當函數不需要參數時使用
+要傳參數 就要 () => X()  否則因為有X(括弧)會立即執行
+
+使用fetch前 要記得非執行續同不 async
+fetch(API_BASE,{}) 後面是方法體
+
+請求要加上await
+
+useStatus 都是()
+
+useEffect是(()=>{} ,[])
+list.map(data => { return(  <? key={data.id} />  )  })
+
+JSX 中幾乎不會用中括號 [ ] 來顯示變數

@@ -1,0 +1,22 @@
+React 中依據使用情境決定顯示哪一個圖片型態
+
+<img
+  width="100"
+  src={productDTO.imageBase64
+    ? `data:image/png;base64,${productDTO.imageBase64}`
+    : productDTO.imageUrl}
+  alt={productDTO.productName}
+/>
+
+
+<img
+  width="100"
+  src={
+    productDTO.image.startsWith('data:image')
+      ? productDTO.image
+      : productDTO.image.startsWith('/')  // 是路徑
+        ? productDTO.image
+        : `data:image/png;base64,${productDTO.image}`
+  }
+  alt={productDTO.productName}
+/>

@@ -1,0 +1,53 @@
+去作者GIT  
+https://github.com/microsoftarchive/redis/releases
+下載Redis-x64-3.0.504.zip
+
+解壓縮執行redis-server.exe
+
+你可以去終端 輸入redis-cli ping
+有回應PONG就代表有啟動了
+
+去application 加上
+spring.redis.host=localhost
+spring.redis.port=6379
+
+依賴加上<!-- Redis noSQL-->
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-data-redis</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	</dependency>
+
+整體流程就是
+打開exe
+匯入 Redis 依賴
+建立 ChatMessage 類別
+建立 RedisChatService
+修改 WebSocketController
+建立 REST API：讓前端進房間時拉取歷史訊息
+
+
+聊天室屬於 先進先出 FIFO
+redisTemplate.opsForList().rightPush(key, json);
+得到[1,2,3]  那麼取出聊天資料時也會是舊的最後顯示
+
+
+Redis 啟動時會自動讀取 dump.rdb
+
+操作面板
+redis-cli.exe
+SAVE  備份(下次開機會撈)
+FLUSHALL (全部清除)
+
+「我會先從Redis快取找資料，沒找到再去資料庫撈，撈完會把結果存回Redis。更新時，會先更新資料庫，再刪掉Redis的快取，確保下一次讀到最新資料。」
+
+「就像聊天訊息，我只存20筆在Redis，當用戶開啟聊天就直接從快取拿資料。當訊息超過一定數量會存到資料庫備份，並清理快取。」
+
+「快取可以提升讀取速度，但資料同步是個挑戰，需要控制過期策略和快取失效機制。」
+
+「我實作過Redis快取歷史訊息，也規劃過如何同步資料庫和快取，理解它在大型系統的必要性和限制。」
+
+「當快取資料量過大或重要性較高時，我會將資料另外存到資料庫做永久保存。讀取時先從Redis快取取資料，如果快取沒有，再從資料庫撈，撈完的結果會再寫回Redis以提升下次讀取效能。這種快取與資料庫雙層查找機制，需要有一套Cache管理策略，通常會封裝成一個CacheService來管理。這個服務會負責讀寫Redis和資料庫、同步資料（例如資料更新後清除或更新快取），確保快取和資料庫保持一致。」

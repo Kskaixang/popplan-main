@@ -1,0 +1,56 @@
+.chatAi-bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  margin: 5px 10px;
+  border-radius: 15px;
+  position: relative;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.selfAi {
+  /* background-color: #e3f2fd;   */
+  background-color: #daf0ff;   
+  color: #000;
+  margin-left: auto;
+  border-bottom-right-radius: 0;
+}
+/* 00CACA */
+.selfAi::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 10px solid #daf0ff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.otherAi {
+  background-color: #c1e6e6;
+  color: #000;
+  margin-right: auto;
+  border-bottom-left-radius: 0;
+}
+
+.otherAi::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right: 10px solid #c1e6e6;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.bubbleAi-content {
+  margin-bottom: 2px;
+}
+
+.bubbleAi-time {
+  font-size: 10px;
+  text-align: right;
+  color: #555;
+}

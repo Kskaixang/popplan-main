@@ -1,0 +1,57 @@
+ Spring Boot 實作範例（伺服器本地儲存）
+1️⃣ Controller
+java
+複製
+編輯
+@PostMapping("/upload")
+public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    try {
+        // 存儲目錄
+        String uploadDir = "uploads/";
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename(); // 防止重複
+        Path filePath = Paths.get(uploadDir + fileName);
+
+        // 寫入本地磁碟
+        Files.createDirectories(filePath.getParent());
+        Files.write(filePath, file.getBytes());
+
+        // 返回檔案路徑（可供資料庫儲存）
+        String relativePath = "/uploads/" + fileName;
+        return ResponseEntity.ok(relativePath);
+    } catch (IOException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file.");
+    }
+}
+2️⃣ 資料庫只存「圖片路徑」
+sql
+複製
+編輯
+image_path VARCHAR(255) -- 例：/uploads/123456_xxx.jpg
+🔄 這樣做的好處
+項目	base64 存 DB	圖片存檔案路徑方式 ✅推薦
+效能（DB查詢速度）	慢，資料肥重	快，只存字串
+記憶體負擔	大	小，圖檔不進記憶體
+前端展示	要 decode base64	<img src="/uploads/xxx.jpg" /> 直接用
+易於 CDN 儲存與快取	難	易，圖檔直接上 CDN
+實務系統可擴充性	不佳	優秀
+
+💡 小建議：你可以用 /uploads/ 當靜態資源路徑
+在 Spring Boot 中，加入這段配置：
+
+java
+複製
+編輯
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:uploads/"); // 指向你磁碟中的資料夾
+    }
+}
+這樣就能透過網址例如：
+
+bash
+複製
+編輯
+http://localhost:8080/uploads/abc.jpg

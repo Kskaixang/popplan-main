@@ -1,0 +1,21 @@
+.custom-clear-button {
+  font-size: 16px;
+  background-color: #E3F2FD; /* 底色 */
+  border-color: #E3F2FD; /* 邊框顏色 */
+  color: #007BFF; /* 按鈕文字顏色 */
+  transition: all 0.3s ease; /* 平滑過渡效果 */
+  border: 1px solid gray; /* 淺邊框顏色 */
+}
+
+.custom-clear-button:hover,
+.custom-clear-button:focus {
+  background-color: #BBDEFB; /* 懸停時背景顏色 */
+  border-color: #90CAF9; /* 懸停時邊框顏色 */
+  color: #004085; /* 懸停時文字顏色 */
+}
+
+.selected-mode {
+  background-color: #0d6efd; /* Bootstrap primary */
+  color: white;
+  border-color: #0d6efd;
+}

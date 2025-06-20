@@ -1,0 +1,51 @@
+package com.example.demo.temp;
+
+import java.io.IOException;
+
+import com.example.demo.service.UserLoginService;
+import com.example.demo.service.impl.UserLoginServiceImpl;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import com.example.demo.model.dto.UserDto;
+
+@WebServlet("/user/login")
+public class UserLoginServlet extends HttpServlet{
+	private UserLoginService userLoginService = new UserLoginServiceImpl();
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.getRequestDispatcher("/WEB-INF/view/cart/user_login.jsp").forward(req, resp);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		String authcode = req.getParameter("authcode");
+		//取得目前存放在 session 的驗證碼(驗證碼圖片內容)
+		String sesstionAuthCode = session.getAttribute("authcode") + "";  // ""代表轉成字串的簡單寫法 比toString更能防異常 因為不會null
+		
+		String resultMessage = null;
+		try {
+			UserDto userDTO = userLoginService.login(username, password, authcode, sesstionAuthCode);
+			resultMessage = username + "登入成功";
+			//將登入資訊 存到session 中 以便其他頁面可以取得使用者相關資訊
+			session.setAttribute("userDTO", userDTO);  // 成功 把新資料覆蓋進去sessrion
+			
+		} catch (RuntimeException e) {
+			session.removeAttribute(username);  //移除異常的舊登入資訊sessrion
+			resultMessage = e.getMessage();
+		}
+		req.setAttribute("resultTitle", "登入結果");
+		req.setAttribute("resultMessage", resultMessage);
+		req.getRequestDispatcher("/WEB-INF/view/cart/result.jsp").forward(req, resp);
+	}
+	
+
+}

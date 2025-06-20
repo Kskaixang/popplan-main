@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 樣式清除 -->
+  <link rel="stylesheet" href="./CSSreset/resetEric.css" />
+  <!-- google NotoSans字型加載 但要在css中調用 font-family: "Noto Sans"; 否則不生效-->
+  <link rel="stylesheet" href="./CSSreset/googleTextNotoSans.css" />
+  <title>Document</title>
+  <style>
+    /* 樣式已經用eric清除 */
+    .box {
+      margin-bottom: 10px;
+      margin-left: 50px;
+      width: 500px;
+      background-color: #9acbee;
+      border-radius: 15px;
+      padding: 15px;
+      /* color: #fff; */
+      position: relative;
+    }
+
+    .box::after {
+      content: "";
+      border-left: 10px solid #9acbee;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      position: absolute;
+      right: -10px;
+
+      top: 0;
+      bottom: 0;
+      margin: auto;
+
+      width: 0;
+      height: 0;
+    }
+
+    .box::before {
+      content: "";
+      border-right: 10px solid #9acbee;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      position: absolute;
+      left: -10px;
+
+      top: 0;
+      bottom: 0;
+      margin: auto;
+
+      width: 0;
+      height: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">對話框</div>
+  <div class="box">對話框</div>
+  <div class="box">對話框</div>
+  <div class="box">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta quis magni
+    quisquam? Cupiditate, voluptate autem totam magnam non laudantium soluta
+    perferendis. Placeat, facilis beatae. Consequuntur sed aliquid quod animi
+    dicta.
+  </div>
+
+  <script></script>
+</body>
+
+</html>

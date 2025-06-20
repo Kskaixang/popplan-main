@@ -1,0 +1,37 @@
+1.為什麼沒有連動到login 5173
+-有連動到 但我想開始改登入頁
+
+從註冊的搬運開始著手
+接下來要做JAVA Cart大規模搬運
+這邊一定得先串好
+我後面才有東西做
+
+1.搬運
+userloginservket 
+userlogoutservlet
+userRegisterservlet 完成
+
+接下來處理登入
+
+睡前都都搞了創建頁 只是感受而已
+還是登入比較重要
+0512-------------------------------------------------------------
+這天開始組合登入 發現Cart的SQL命令 欄為名和我的建表有點不同 一定要多檢查
+1.搬運
+userloginservket 異常 但true強登入有過
+userlogoutservlet
+新知識
+allowCredentials = "true" 才能收到sesstion驗證碼 來匹配下面
+React credentials: "include",//🔥 session/cookie
+
+預計刪除金池 活動表創建時 取消 結束時間 截止時間 
+舊問題
+1.按鈕樣式還沒修
+2.響應式漢堡列沒修
+
+然後出現新問題 
+1.UserRegisterServiceImpl加鹽 和取出時的 user.getHashPassword().equals(hashPassword)不一致 (已經解決 因為resigter時 想接收hashPassword 但React是送Password)
+2.navbar沒有讀到session區的使用者 沒有自動切換
+0513---------------------
+上2已經解決
+新增了登出鍵

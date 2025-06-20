@@ -1,0 +1,33 @@
+.relative{
+  position: relative;
+}
+.absolute{
+  position: absolute;
+}
+.position-absolute {
+   top: -10px;
+    left: 16px;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    padding: 2px 6px;
+    font-size: 12px;
+
+}
+
+/* 好像沒用到 */
+.navbar-bottom {
+  box-shadow: 0 4px 0 0 transparent; /* 預設為透明底線 */
+  transition: box-shadow 0.3s ease;  /* 平滑過渡 */
+}
+.navbar-bottom:hover {
+  box-shadow: 0 4px 0 0 skyblue; /* 懸停時顯示藍色底線 */
+}
+
+.pp-mainColor {
+  background-color: #e3f2fd;
+}
+
+.pp-seconColor {
+  background-color: #D1E9E9;
+}

@@ -1,0 +1,22 @@
+.custom-calendar {
+  border: 2px solid #ddd;
+}
+
+.custom-calendar .rs-calendar-table-cell-content {
+  height: 40px !important;
+  line-height: 40px !important;
+  display: flex !important;
+  align-items: center;
+   flex-direction: column; 
+}
+
+.custom-calendar .rs-calendar-table-cell-day {
+  font-size: 14px !important;
+  line-height: 21px !important;
+  height: 21px !important;
+  width: 21px !important;
+  margin: 0 auto !important;
+  border-radius: 50%;
+}
+
+

@@ -1,0 +1,17 @@
+import { createContext, useContext } from "react";
+import { useGlobalWebSocket } from "./useGlobalWebSocket";
+//初始化容器
+const GlobalWebSocketContext = createContext(null);
+
+export const GlobalWebSocketProvider = ({ userId, isLooggedIn, children }) => {
+  //取出STOMP通道 與訂閱
+  const { client, connected } = useGlobalWebSocket(userId, isLoggedIn);
+
+  //設定格式
+  return (
+    <GlobalWebSocketContext.Provider value={{ client, connected }}>
+      {children}
+    </GlobalWebSocketContext.Provider>
+  )
+}
+export const useGlobalWebSocketContext = () => useContext(GlobalWebSocketContext);

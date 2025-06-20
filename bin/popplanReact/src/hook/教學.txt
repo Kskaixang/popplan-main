@@ -1,0 +1,16 @@
+import NotificationListener from './components/NotificationListener';
+import { useSession } from './components/SessionProvider'; // 假設你有這樣的 session 控制
+
+function App() {
+  const { isLoggedIn, user } = useSession();
+
+  return (
+    <>
+      {/* 頁面 */}
+      <Routes>{/* ... */}</Routes>
+
+      {/* 🎯 登入後啟動通知 socket */}
+      {isLoggedIn && <NotificationListener userId={user.id} isLoggedIn={true} />}
+    </>
+  );
+}

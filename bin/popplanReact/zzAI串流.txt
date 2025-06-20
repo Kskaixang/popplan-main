@@ -1,0 +1,32 @@
+
+
+為什麼AI能逐字顯示
+回答開頭：用比較說明
+一般的 HTTP 請求，例如用 fetch() 或 axios，伺服器會在所有資料準備好後一次回傳 JSON，再由前端一次渲染畫面。
+
+但這種方式無法達成「逐字顯示」，因為伺服器得等處理完畢才能回應。
+
+✅ 中段：切入 SSE 的核心概念
+相反的，Server-Sent Events（SSE）是一種單向的持久連線技術，它讓瀏覽器透過 EventSource 開一條 HTTP 連線之後，這條連線不會馬上關閉。
+
+伺服器會使用一種特別的 Content-Type（叫做 text/event-stream），然後把資料一段一段地用事件格式傳送過來，前端就可以逐字接收與顯示。
+
+✅ 重點一句（面試官會記住這句）
+SSE 的關鍵不是「資料格式不同」，而是「它維持一條不關閉的連線，讓伺服器可以多次回應」。
+
+
+
+
+ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
+
+public void scheduleAutoDelete(Registration reg) {
+    Runnable task = () -> {
+        Optional<Registration> check = registrationRepository.findById(reg.getRegistrationId());
+        if (check.isPresent() && !check.get().getIsConfirmed()) {
+            registrationRepository.delete(check.get());
+            System.out.println("自動刪除報名 ID: " + reg.getRegistrationId());
+        }
+    };
+    // 60 秒後執行這個 task
+    executor.schedule(task, 60, TimeUnit.SECONDS);
+}

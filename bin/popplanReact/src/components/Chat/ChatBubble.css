@@ -1,0 +1,56 @@
+.chat-bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  margin: 5px 10px;
+  border-radius: 15px;
+  position: relative;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.self {
+  /* background-color: #e3f2fd;   */
+  background-color: #daf0ff;  
+  color: #000;
+  margin-left: auto;
+  border-bottom-right-radius: 0;
+}
+
+.self::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 10px solid #daf0ff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.other {
+  background-color: #eee;
+  color: #000;
+  margin-right: auto;
+  border-bottom-left-radius: 0;
+}
+
+.other::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right: 10px solid #eee;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.bubble-content {
+  margin-bottom: 2px;
+}
+
+.bubble-time {
+  font-size: 10px;
+  text-align: right;
+  color: #555;
+}

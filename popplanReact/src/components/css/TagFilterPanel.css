@@ -1,0 +1,29 @@
+/* TagFilterPanel.css */
+
+/* 容器設定，使用 Flexbox 實現多列排列 */
+.tag-filter-panel {
+  display: flex;
+  flex-wrap: wrap;  /* 允許換行 */
+  gap: 1rem;        /* 設定每個區塊間的間距 */
+}
+
+/* 每個標籤分類區塊 */
+.tag-category {
+  flex: 1 1 200px;  /* 每個分類至少佔 200px，並可調整 */
+  min-width: 200px;  /* 最小寬度 200px */
+  margin-bottom: 1rem;
+}
+
+/* 標籤按鈕的區塊 */
+.tag-buttons {
+  display: flex;
+  flex-wrap: wrap;  /* 按鈕也能換行 */
+  gap: 0.5rem;      /* 按鈕間的間距 */
+}
+
+@media (min-width: 768px) {
+  /* 當螢幕寬度大於等於 768px 時，區塊會併排 */
+  .tag-filter-panel {
+    justify-content: space-between;
+  }
+}

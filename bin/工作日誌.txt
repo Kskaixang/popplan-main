@@ -1,0 +1,88 @@
+未來想實作的功能 
+1.AI 智能圍堵 捕捉整個表單 下prompt 讓AI推論敘述項目是否是完整邏輯內容 預防瞎寫
+
+正式工作日誌
+20250520---------------------------------------
+19-26
+實作DTO
+調整ResponseEntity<ApiResponse<Event>> 
+期望可以回傳@Vaild 錯誤至React
+從Event著手 
+
+1.設定Exception OK
+2.更新ApiResponse 因為還沒實作錯誤 沒問題 OK
+3.DTO 產出
+4.mapper產出
+5.@Service 產出 21:39
+6.改好controller  22:53  明天上傳git 然後測試創建活動 單筆活動
+
+20250520---------------------------------------
+目標: 
+1.修復exception的JSON  
+2.整合老師的登入模板
+3.修復React 登入statu
+
+18:50=(限時19:30)修復exception的JSON OK 超時14分鐘
+
+2. 
+Email認證欄位 從complete變成了active
+前端的表單 大概會很不一樣?
+初步的將搬運報錯處理了 接下來會是整合吧 user login register分好多 
+
+
+
+
+
+實現方式範例
+jsx
+複製
+編輯
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SessionContext } from './components/SessionProvider';
+
+// 共用的點擊前檢查登入函式
+function useRequireLogin() {
+  const { isLoggedIn } = useContext(SessionContext);
+  const navigate = useNavigate();
+
+  // 包裝傳入的callback：未登入時阻擋並導登入，有登入才執行callback
+  function handleClickWithLoginCheck(originalCallback) {
+    return () => {
+      if (!isLoggedIn) {
+        alert('請先登入');
+        navigate('/login');
+      } else {
+        originalCallback && originalCallback();
+      }
+    };
+  }
+
+  return { handleClickWithLoginCheck };
+}
+使用範例
+jsx
+複製
+編輯
+import { BsHeart } from 'react-icons/bs';
+
+function FavoriteButton({ onFavorite }) {
+  const { handleClickWithLoginCheck } = useRequireLogin();
+
+  return (
+    <button onClick={handleClickWithLoginCheck(onFavorite)}>
+      <BsHeart /> 收藏
+    </button>
+  );
+}
+解釋
+useRequireLogin 是一個 custom hook，提供 handleClickWithLoginCheck 包裝函式。
+
+你給它原本想做的按鈕功能 onFavorite（收藏真正要做的事情）。
+
+它會先判斷登入狀態，不登入就跳提示和轉登入頁；登入才執行收藏邏輯。
+
+這樣你所有要「需要登入才能執行」的按鈕，都能用同一套包裝函式來套，避免重複程式碼又清楚。
+同時按鈕本身還能保留它原有的行為。
+
+需要我幫你整理成更完整範例嗎？

@@ -1,0 +1,5 @@
+SQL 匯出
+先到你的路徑 密碼abc123
+
+cd C:\Program Files\MySQL\MySQL Server 8.0\bin
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe" -u root -p popplan > "%USERPROFILE%\Desktop\popplan_backup.sql"
