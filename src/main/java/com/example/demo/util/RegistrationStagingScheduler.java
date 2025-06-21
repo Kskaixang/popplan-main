@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class RegistrationStagingScheduler {
 	// 定義一個常用的日期格式
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	@Autowired
 	private RegistrationStagingRepository registrationStagingRepository;
 	@Autowired
@@ -34,26 +34,26 @@ public class RegistrationStagingScheduler {
 	private RegistrationMapper registrationMapper;
 	@Autowired
 	private NotificationRepository notificationRepository;
-	
+
 	@Autowired
 	private SimpMessagingTemplate simpMessageinTemplate;
-	
-	//時間轉字串
+
+	// 時間轉字串
 	private String format(LocalDateTime dateTime) {
-        return dateTime.format(formatter);
-    }
-	
+		return dateTime.format(formatter);
+	}
+
 	@Transactional
-	@Scheduled(fixedRate = 10000)  // 每10秒執行
+	@Scheduled(fixedRate = 10000) // 每10秒執行
 	public void processExpiredRegistrations() {
-		//System.out.println("自動排程執行在:" + LocalDateTime.now());
+		// System.out.println("自動排程執行在:" + LocalDateTime.now());
 		LocalDateTime paymentDeadline = LocalDateTime.now().minusSeconds(60);
 
 		List<RegistrationStaging> expiredList = registrationStagingRepository
 				.findByStatusAndCreatedAtBefore(RegistrationStatus.PENDING_PAYMENT, paymentDeadline);
 
 		if (expiredList.isEmpty()) {
-			//System.out.println("此次排程無逾期交易資料:無動作");
+			// System.out.println("此次排程無逾期交易資料:無動作");
 			return;
 		}
 
@@ -69,14 +69,18 @@ public class RegistrationStagingScheduler {
 				registrationStagingRepository.delete(registrationStaging);
 
 				System.out.println("逾時報名已搬移，Staging.Id: " + registrationStaging.getRegistrationId());
-				
-				//發送給用戶 獲得通知  時間 重新報名的活動頁
+
+				// 發送給用戶 獲得通知 時間 重新報名的活動頁
+				String title = registration.getEvent().getTitle();
+				String titleSub = title.length() <= 10 ? title : title.substring(0, 10) + "...";
 				String formattedTime = format(registrationStaging.getCreatedAt());
 				String sameEventUrl = "/event/" + registrationStaging.getEvent().getEventId();
-				Notification notification = new Notification(user,"您於" + formattedTime+ "的報名因逾時未付款已取消，請重新報名。" , sameEventUrl);
+				Notification notification = new Notification(user, "活動 : " + titleSub + " 的報名因逾時未付款已取消，請重新報名。",
+						sameEventUrl);
 				notificationRepository.save(notification);
-				simpMessageinTemplate.convertAndSend("/topic/notification/"+ user.getUserId(),notification.getMessage());
-				
+				simpMessageinTemplate.convertAndSend("/topic/notification/" + user.getUserId(),
+						notification.getMessage());
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("搬運失敗：Staging ID = " + registrationStaging.getRegistrationId());

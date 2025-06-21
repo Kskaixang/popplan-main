@@ -23,7 +23,7 @@ function RegistrationCard({ registration, fetchEvent }) { //, onCancel
     if (isNaN(date)) return "格式錯誤";
 
     // 調整成台灣時間（UTC+8）------------------------------
-    const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
+    const localDate = new Date(date.getTime());
 
     const year = localDate.getFullYear();
     const month = String(localDate.getMonth() + 1).padStart(2, '0');

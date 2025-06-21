@@ -164,8 +164,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 			String formattedTime = format(registration.getCreatedAt());
 			String sameEventUrl = "/event/" + registration.getEvent().getEventId();
 			
-			
-			Notification notification = new Notification(registrationUser, "您於" + formattedTime + "的免費報名已成功。", sameEventUrl);
+			String title = SqlEntity.getEvent().getTitle();
+			String titleSub = title.length() <=10 ? title : title.substring(0,10) + "...";
+			Notification notification = new Notification(registrationUser, "活動 : " + titleSub + " 的免費報名已成功。", sameEventUrl);
 			notificationRepository.save(notification);
 			
 			
@@ -177,11 +178,13 @@ public class RegistrationServiceImpl implements RegistrationService {
 		// 如果要付費 則是進入Staging 暫表
 		RegistrationStaging registrationStaging = new RegistrationStaging(registrationUser, event);
 		// 取存好的實體 我要拿id
-		RegistrationStaging SqlEntity = registrationStagingRepository.save(registrationStaging);		
+		RegistrationStaging SqlEntity = registrationStagingRepository.save(registrationStaging);	
 		
-		String formattedTime = format(SqlEntity.getCreatedAt());
+		String title = SqlEntity.getEvent().getTitle();
+		String titleSub = title.length() <=10 ? title : title.substring(0,10) + "...";
+		//String formattedTime = format(SqlEntity.getCreatedAt());
 		String sameEventUrl = "/event/" + SqlEntity.getEvent().getEventId();
-		Notification notification = new Notification(registrationUser, "您於" + formattedTime + "的報名已建立請前往付款。", sameEventUrl);
+		Notification notification = new Notification(registrationUser, "活動 : " + titleSub + " 的報名已建立請前往付款。", sameEventUrl);
 		notificationRepository.save(notification);
 		simpMessageinTemplate.convertAndSend("/topic/notification/" + registrationUser.getUserId(),
 				notification.getMessage());
@@ -222,9 +225,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 		String QRLink = "http://localhost:8080/email/QR?eventId=" + event.getEventId();
 		emailService.sendEmail(registrationUser.getEmail(), QRLink);
 		// 通知
-		String formattedTime = format(registration.getCreatedAt());
+		String title = event.getTitle();
+		String titleSub = title.length() <=10 ? title : title.substring(0,10) + "...";
+		//String formattedTime = format(registration.getCreatedAt());
 		String sameEventUrl = "/event/" + registration.getEvent().getEventId();
-		Notification notification = new Notification(registrationUser, "您於" + formattedTime + "的付費報名已成功。", sameEventUrl);
+		Notification notification = new Notification(registrationUser, "活動 : " + titleSub +  " 的付費報名已成功。", sameEventUrl);
 		notificationRepository.save(notification);
 		simpMessageinTemplate.convertAndSend("/topic/notification/" + registrationUser.getUserId(),
 				notification.getMessage());
@@ -255,9 +260,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 		registrationRepository.save(registration);
 		registrationStagingRepository.deleteById(restartionStagingId);
 		// 通知需要補強 所以時間工具 確實要抽取 趕時間 算了
-		String formattedTime = format(registrationStaging.getCreatedAt());
+		String title = registration.getEvent().getTitle();
+		String titleSub = title.length() <=10 ? title : title.substring(0,10) + "...";
+		//String formattedTime = format(registrationStaging.getCreatedAt());
 		String sameEventUrl = "/event/" + registrationStaging.getEvent().getEventId();
-		Notification notification = new Notification(registrationUser, "您於" + formattedTime + "的報名已經取消。", sameEventUrl);
+		Notification notification = new Notification(registrationUser,"活動 : " + titleSub +  " 的報名已經取消。", sameEventUrl);
 		notificationRepository.save(notification);
 		simpMessageinTemplate.convertAndSend("/topic/notification/" + registrationUser.getUserId(),
 				notification.getMessage());
@@ -278,9 +285,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 		registration.setStatus(RegistrationStatus.CANCELLED);
 		registrationRepository.save(registration);
 		// 通知需要補強 所以時間工具 確實要抽取 
-		String formattedTime = format(registration.getCreatedAt());
+		String title = registration.getEvent().getTitle();
+		String titleSub = title.length() <=10 ? title : title.substring(0,10) + "...";
+		//String formattedTime = format(registration.getCreatedAt());
 		String sameEventUrl = "/event/" + registration.getEvent().getEventId();
-		Notification notification = new Notification(registrationUser, "您於" + formattedTime + "的參加已經取消。", sameEventUrl);
+		Notification notification = new Notification(registrationUser, "活動 : " + titleSub +   " 的參加已經取消。", sameEventUrl);
 		notificationRepository.save(notification);
 		simpMessageinTemplate.convertAndSend("/topic/notification/" + registrationUser.getUserId(),
 				notification.getMessage());
